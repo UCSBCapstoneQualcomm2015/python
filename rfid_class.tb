@@ -1,0 +1,38 @@
+##rfid_ID	dist_from_A	d_f_B	d_f_C	d_f_D	time_last_moved
+
+pin1	3	9	11	9	0
+pin2	5	4	9	11	0
+pin3	5	11	9	4	0
+pin4	5	5	9	5	0
+pin5	7	2	7	9	0
+pin6	7	9	7	2	0
+pin7	9	5	5	5	0	
+pin8	9	4	5	11	0
+pin9	9	11	5	4	0
+pin10	11	9	3	9	0
+
+
+## Below is an approximate map of the above encoding
+## /readers\
+## plain numbers are RFID stickers
+
+###########################################
+#                /r1\					  #	
+#                    				      #	
+#                 1					      #    	
+#									      #
+#       2                    3		      #
+#									      #			
+#                 4					      #
+#									      #
+#/r2\  5                     6		/r4\  #
+#									  	  #
+#				  7					  	  #
+#									  	  #
+#	   8                     9		  	  #
+#									  	  #
+#                10					  	  #
+#                    				      #	
+#                /r3\                     #
+###########################################
+

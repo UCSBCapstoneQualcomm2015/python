@@ -63,6 +63,10 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 
 #compare each two lists and add common elements to dictionary
  def compareLists(list1, list2, rfidDict):
+## NOTE: whatever calls this, must take the returned dictionary and append its changes to the main one.
+## [todo]: ask sohan what rfidDict is for, should it take the place of matches?
+
+
 	matches = defaultdict()
 
 	settit = set() ## for efficient use of "in"

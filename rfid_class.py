@@ -12,7 +12,7 @@
 #######################################
 import datetime
 
-class rfid_tags:
+class rfid_tag:
 	
 #######################################
 ##            constructor            ##
@@ -32,7 +32,7 @@ class rfid_tags:
 ##            initialize             ##
 ##     so constructor can be empty   ##
 #######################################
-	def initialize(self, dA, dB, dC, dDa ):
+	def initialize(self, dA, dB, dC, dD ):
 		self._dist_A = dA
 		self._dist_B = dB
 		self._dist_C = dC

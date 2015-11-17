@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from rfid_class import *
 
 #start with dictionary of ids/distances
 def solve(distances): 
@@ -7,7 +7,7 @@ def solve(distances):
 	#snapdragon goes
 	#
 
-#tell the snapdragons to send signals: need to pass in list of snapdragons we are using
+#tell the snapdragons to send signals: need to pass in list of snapdragons we are using. NEEDS TO BE ONE AT A TIME
 
 def shoot_snapDragon(dragonList):
 	pass

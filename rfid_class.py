@@ -44,6 +44,10 @@ class rfid_tags:
 #######################################
 ##   GETTERS FOR SNIFFER DISTANCES    #
 #######################################
+	
+	def getDistances(self):
+		distances = [ _dist_A, _dist_B, _dist_C, _dist_D ]
+		return distances
 
 	def getDist_A(self):
 		## [TODO]: write the location algorithm here

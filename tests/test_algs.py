@@ -60,12 +60,49 @@ def test_compare_5():
 
 
 ##############  N CLOSEST VALUES TESTS  ###################
+#find  sqrt(number of ids) closest distances (ran on each snapdragon)
+
+#simple passing test: 9 tags
+def test_nClosest_1():
+	tag_a.initialize(1,3,9,7)
+	tag_b.initialize(2,4,2,6)
+	tag_c.initialize(2,9,6,1)
+	tag_d.initialize(4,2,5,12)
+	tag_e.initialize(3,6,2,1)
+	tag_f.initialize(2,4,2,5)
+	tag_g.initialize(9,8,5,2)
+	tag_h.initialize(1,3,1,9)
+	tag_i.initialize(4,2,3,1)
+	missing = rfid_tag(11)
+	missing.initialize(5,5,5,5)
+	myList = [tag_a, tag_b, tag_c, tag_d, tag_e, tag_f, tag_g, tag_h, tag_i]
+	l1, l2, l3, l4 = nClosest(4, myList, missing)
+	assert l1 == [tag_d, tag_i, tag_e] and l2 == [tag_b,tag_e, tag_f] and l3 == [tag_d, tag_g, tag_c] and l4 == [tag_f, tag_b, tag_a]
+
+#simple passing test: 4 tags
+def test_nClosest_2():
+	tag_a.initialize(1,3,9,7)
+	tag_b.initialize(2,4,2,6)
+	tag_c.initialize(3,9,6,1)
+	tag_d.initialize(4,2,5,12)
+	missing = rfid_tag(11)
+	missing.initialize(5,5,5,5)
+	myList = [tag_a, tag_b, tag_c, tag_d]
+	l1, l2, l3, l4 = nClosest(4, myList, missing)
+	assert l1 == [tag_c, tag_d] and l2 == [tag_b, tag_a] and l3 == [tag_d, tag_c] and l4 == [tag_b, tag_a]
 
 
-
-
-
-
+#should not take in the -1
+def test_nClosest_3():
+	tag_a.initialize(1,3,9,-1)
+	tag_b.initialize(2,4,2,6)
+	tag_c.initialize(3,9,6,1)
+	tag_d.initialize(4,2,5,12)
+	missing = rfid_tag(11)
+	missing.initialize(5,5,5,1)
+	myList = [tag_a, tag_b, tag_c, tag_d]
+	l1, l2, l3, l4 = nClosest(4, myList, missing)
+	assert l4 == [tag_c, tag_b]
 
 
 

@@ -5,7 +5,7 @@ import json
 import csv
 import sys
 
-RFID_cats = ['EPC','Count','Last Seen Time','Last Seen Date','First Seen Time','First Seen Date', 'Antenna 1 count', 'Antenna 1 - Last seen time', 'Antenna 1 - First seen time', 'Antenna 2 count', 'Antenna 2 - Last seen time', 'Antenna 2 - First seen time', 'Antenna 3 count', 'Antenna 3 - Last seen time', 'Antenna 3 - First seen time', 'Antenna 4 count', 'Antenna 4 - Last seen time', 'Antenna 4 - First seen time', 'RSSI', 'PC', 'CRC']
+RFID_cats = ['EPC','Count','Last Seen Time','Last Seen Date','First Seen Time','First Seen Date', 'Antenna 1 distance', 'Antenna 1 - Last seen time', 'Antenna 1 - First seen time', 'Antenna 2 distance', 'Antenna 2 - Last seen time', 'Antenna 2 - First seen time', 'Antenna 3 distance', 'Antenna 3 - Last seen time', 'Antenna 3 - First seen time', 'Antenna 4 distance', 'Antenna 4 - Last seen time', 'Antenna 4 - First seen time', 'RSSI', 'PC', 'CRC']
 
 
 def convert(filename):

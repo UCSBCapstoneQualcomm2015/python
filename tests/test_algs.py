@@ -21,7 +21,7 @@ def test_compare_1():
 	a = [tag_a, tag_b]
 	b = [tag_a, tag_c, tag_b]
 	with pytest.raises(ValueError) as err:
-		compareLists(a,b,c)
+		compareLists(a,b)
 	assert err.value.message == 'The two lists have different lengths.'
 
 #error should be raised if multiple of same tag in a list
@@ -29,7 +29,7 @@ def test_compare_2():
 	a = [tag_a, tag_b, tag_c]
 	b = [tag_a, tag_a, tag_c]
 	with pytest.raises(ValueError) as err:
-		compareLists(a,b,c)
+		compareLists(a,b)
 	assert err.value.message == 'n_closest algorithm incorrect: one of the lists repeats a value'
 
 #none of values in lists are the same
@@ -37,7 +37,7 @@ def test_compare_3():
 	a = [tag_a, tag_b, tag_c]
 	b = [tag_d, tag_e, tag_f]
 	c = dict()
-	answer = compareLists(a,b,c)
+	answer = compareLists(a,b)
 	assert answer == {}
 
 #simple working test
@@ -45,16 +45,15 @@ def test_compare_4():
 	a = [tag_a, tag_b, tag_c, tag_d]
 	b = [tag_c, tag_b, tag_f, tag_g]
 	c = dict()
-	answer = compareLists(a,b,c)
+	answer = compareLists(a,b)
 	assert answer[tag_b] == 1 and answer[tag_c] == 1 and len(answer) == 2
-	assert c[tag_b] == 1 and c[tag_c] == 1 and len(c) == 2
 
 #simple working test 2
 def test_compare_5():
 	a = [tag_a, tag_b, tag_c, tag_d, tag_e, tag_f]
 	b = [tag_b, tag_d, tag_f, tag_h, tag_i, tag_j]
 	c = {tag_a:3, tag_b: 2, tag_d: 4}
-	answer = compareLists(a,b,c)
+	answer = compareLists(a,b)
 	assert  answer[tag_b] == 1 and answer[tag_d] == 1 and answer[tag_f] == 1 and len(c) == 3
 
 ########### NEED TO CREATE INTEGRATION TESTS FOR NCLOSEST AND COMPARE #################

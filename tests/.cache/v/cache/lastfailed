@@ -1,7 +1,6 @@
 {
   "test_algs.py::test_compare_1": true, 
   "test_algs.py::test_compare_2": true, 
-  "test_algs.py::test_compare_3": true, 
   "test_algs.py::test_compare_4": true, 
   "test_algs.py::test_compare_5": true, 
   "test_algs.py::test_nClosest_1": true, 

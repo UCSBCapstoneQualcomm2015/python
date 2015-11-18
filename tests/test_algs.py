@@ -20,7 +20,6 @@ tag_j = rfid_tag(10)
 def test_compare_1():
 	a = [tag_a, tag_b]
 	b = [tag_a, tag_c, tag_b]
-	c = dict()
 	with pytest.raises(ValueError) as err:
 		compareLists(a,b,c)
 	assert err.value.message == 'The two lists have different lengths.'
@@ -29,7 +28,6 @@ def test_compare_1():
 def test_compare_2(): 
 	a = [tag_a, tag_b, tag_c]
 	b = [tag_a, tag_a, tag_c]
-	c = dict()
 	with pytest.raises(ValueError) as err:
 		compareLists(a,b,c)
 	assert err.value.message == 'n_closest algorithm incorrect: one of the lists repeats a value'
@@ -39,15 +37,16 @@ def test_compare_3():
 	a = [tag_a, tag_b, tag_c]
 	b = [tag_d, tag_e, tag_f]
 	c = dict()
-	compareLists(a,b,c)
-	assert c == {}
+	answer = compareLists(a,b,c)
+	assert answer == {}
 
 #simple working test
 def test_compare_4():
 	a = [tag_a, tag_b, tag_c, tag_d]
 	b = [tag_c, tag_b, tag_f, tag_g]
 	c = dict()
-	compareLists(a,b,c)
+	answer = compareLists(a,b,c)
+	assert answer[tag_b] == 1 and answer[tag_c] == 1 and len(answer) == 2
 	assert c[tag_b] == 1 and c[tag_c] == 1 and len(c) == 2
 
 #simple working test 2
@@ -55,8 +54,11 @@ def test_compare_5():
 	a = [tag_a, tag_b, tag_c, tag_d, tag_e, tag_f]
 	b = [tag_b, tag_d, tag_f, tag_h, tag_i, tag_j]
 	c = {tag_a:3, tag_b: 2, tag_d: 4}
-	compareLists(a,b,c)
-	assert c[tag_a] == 3 and c[tag_b] == 3 and c[tag_d] == 5 and c[tag_f] == 1 and len(c) == 4
+	answer = compareLists(a,b,c)
+	assert  answer[tag_b] == 1 and answer[tag_d] == 1 and answer[tag_f] == 1 and len(c) == 3
+
+########### NEED TO CREATE INTEGRATION TESTS FOR NCLOSEST AND COMPARE #################
+
 
 
 ##############  N CLOSEST VALUES TESTS  ###################
@@ -76,8 +78,9 @@ def test_nClosest_1():
 	missing = rfid_tag(11)
 	missing.initialize(5,5,5,5)
 	myList = [tag_a, tag_b, tag_c, tag_d, tag_e, tag_f, tag_g, tag_h, tag_i]
-	l1, l2, l3, l4 = nClosest(4, myList, missing)
-	assert l1 == [tag_d, tag_i, tag_e] and l2 == [tag_b,tag_e, tag_f] and l3 == [tag_d, tag_g, tag_c] and l4 == [tag_f, tag_b, tag_a]
+	solutionDict = nClosest(4, myList, missing)
+	assert len(solutionDict) == 4 and solutionDict[1] == [tag_d, tag_i, tag_e] and solutionDict[2] == [tag_b,tag_e, tag_f] and solutionDict[3] == [tag_d, tag_g, tag_c] and solutionDict[4] == [tag_f, tag_b, tag_a]
+	#dictionary(id: list of objects)
 
 #simple passing test: 4 tags
 def test_nClosest_2():
@@ -88,8 +91,8 @@ def test_nClosest_2():
 	missing = rfid_tag(11)
 	missing.initialize(5,5,5,5)
 	myList = [tag_a, tag_b, tag_c, tag_d]
-	l1, l2, l3, l4 = nClosest(4, myList, missing)
-	assert l1 == [tag_c, tag_d] and l2 == [tag_b, tag_a] and l3 == [tag_d, tag_c] and l4 == [tag_b, tag_a]
+	answer = nClosest(4, myList, missing)
+	assert answer[1] == [tag_c, tag_d] and answer[2] == [tag_b, tag_a] and answer[3] == [tag_d, tag_c] and answer[4] == [tag_b, tag_a]
 
 
 #should not take in the -1
@@ -102,10 +105,15 @@ def test_nClosest_3():
 	missing.initialize(5,5,5,1)
 	myList = [tag_a, tag_b, tag_c, tag_d]
 	l1, l2, l3, l4 = nClosest(4, myList, missing)
-	assert l4 == [tag_c, tag_b]
+	assert answer[4] == [tag_c, tag_b]
 
 
 
+################  PARSE ##################### NEEDS TO TURN TEXT FILE INTO LIST OF JSON: PLAY WITH SAMPLE DATA TO LOOK LIKE WHAT WE WANT
+
+
+
+################   STORE AS CLASS ############### GIVEN A CHUNK OF JSON: TURN DATA INTO AN INSTANCE OF A CLASS AND ADD TO GLOBAL LIST
 
 
 

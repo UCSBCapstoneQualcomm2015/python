@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import collections
-from collections import OrderedDict
+from collections import defaultdict
 from rfid_class import *
-
+import json
+import csv
+import sys
+RFID_cats = ['EPC','Count','Last Seen Time','Last Seen Date','First Seen Time','First Seen Date', 'Antenna 1 distance', 'Antenna 1 - Last seen time', 'Antenna 1 - First seen time', 'Antenna 2 distance', 'Antenna 2 - Last seen time', 'Antenna 2 - First seen time', 'Antenna 3 distance', 'Antenna 3 - Last seen time', 'Antenna 3 - First seen time', 'Antenna 4 distance', 'Antenna 4 - Last seen time', 'Antenna 4 - First seen time', 'RSSI', 'PC', 'CRC']
 #start with dictionary of ids/distances
 def solve(distances): 
 	pass
@@ -34,18 +37,23 @@ def grab_data(dragonLink):
 
 #parse the big format on snapdragon and put it into individual tag format and into list
 #helper that should be called in grab_data
-def parse(rfidReturnData):
-	pass
-
+def parse(filename):
+	# csv_filename = filename[0]
+	print "Opening CSV file: ",filename 
+	f=open(filename, 'r')
+	csv_reader = csv.DictReader(f,RFID_cats)
+	return json.dumps([r for r in csv_reader])
+	f.close()
 #turn each individual format into a class instance and add to list
 #helper called from parse
 def storeAsClass(singleTagChunk):
-	pass
-
+	data = json.loads(singleTagChunk)
+	print data[0]['EPC']
 #find  sqrt(number of ids) closest distances (ran on each snapdragon)
 def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 	
 	##assumed: all rfids have locations populated
+	returnable =int ( nSniffers ** (.5) ) ##floor of sqrt (number of sniffer)
 
 	sniffer_proximity_lists = defaultdict()
 
@@ -55,10 +63,10 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 			sniffer_proximity_lists[i].append( tag.getDistances()[i] ) ## get respective tag for each 
 		## sort the list
 	for _sniffer_ in sniffer_proximity_lists:
-		sniffer_proximity_lists[_sniffer_] = sorted( sniffer_proximity_lists[_sniffer_], reverse = True )
+		sniffer_proximity_lists[_sniffer_] = sorted( sniffer_proximity_lists[_sniffer_], key = lambda x: x.getDistances()[i] ,reverse = True )
+		del sniffer_proximity_lists[_sniffer_][returnable:] ##truncate past sqrt#sniffers
 
 	return sniffer_proximity_lists
-
 
 
 #compare each two lists and add common elements to dictionary
@@ -67,7 +75,7 @@ def compareLists(list1, list2):
 ## [todo]: ask sohan what rfidDict is for, should it take the place of matches?
 
 
-	matches = {}
+	matches = defaultdict()
 
 	settit = set() ## for efficient use of "in"
 	for rfid in list1:
@@ -89,3 +97,4 @@ def findMidpoint(rfidDict):
 
 #TODO: CREATE A CLASS STRUCTURE {RFID_TAG: CONTAINS ID, DISTANCE1, DISTANCE2,
 #DISTANCE3, DISTANCE4    (WILL EVENTUALLY BE TIME1,TIME2,TIME3,TIME4)}
+storeAsClass(parse("myCSVfile.txt"))

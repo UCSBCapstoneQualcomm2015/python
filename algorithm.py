@@ -42,8 +42,9 @@ def parse(filename):
 	print "Opening CSV file: ",filename 
 	f=open(filename, 'r')
 	csv_reader = csv.DictReader(f,RFID_cats)
-	return json.dumps([r for r in csv_reader])
+	data = json.dumps([r for r in csv_reader])
 	f.close()
+	return data
 #turn each individual format into a class instance and add to list
 #helper called from parse
 def storeAsClass(singleTagChunk):
@@ -79,7 +80,8 @@ def compareLists(list1, list2):
 ## NOTE: whatever calls this, must take the returned dictionary and append its changes to the main one.
 ## [todo]: ask sohan what rfidDict is for, should it take the place of matches?
 
-
+	if (len(list1) != len(list2)):
+		raise ValueError('The two lists have different lengths.')
 	matches = defaultdict()
 
 	settit = set() ## for efficient use of "in"

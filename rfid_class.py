@@ -2,6 +2,8 @@
 #       so following convention, any var/func name with leading undersore
 #       is to be treated as private.
 
+
+
 #######################################
 ##                                   ##
 ##          RFID TAG CLASS           ##
@@ -9,11 +11,11 @@
 #######################################
 import datetime
 
-class rfid_tag:
+class Rfid_tag:
 	
 #######################################
 ##            constructor            ##
-####################################	###
+#######################################
 	def __init__(self, id):
 		
 		self._ID = id ##should be const

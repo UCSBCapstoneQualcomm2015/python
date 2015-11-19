@@ -1,9 +1,6 @@
-
 ##NOTE: python doesnt support private members, 
 #       so following convention, any var/func name with leading undersore
 #       is to be treated as private.
-
-
 
 #######################################
 ##                                   ##
@@ -16,7 +13,7 @@ class rfid_tag:
 	
 #######################################
 ##            constructor            ##
-#######################################
+####################################	###
 	def __init__(self, id):
 		
 		self._ID = id ##should be const
@@ -44,6 +41,10 @@ class rfid_tag:
 #######################################
 ##   GETTERS FOR SNIFFER DISTANCES    #
 #######################################
+	
+	def getDistances(self):
+		distances = [ self._dist_A, self._dist_B, self._dist_C, self._dist_D ]
+		return distances
 
 	def getDist_A(self):
 		## [TODO]: write the location algorithm here

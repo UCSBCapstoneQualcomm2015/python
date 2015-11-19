@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python	
 import collections
 from collections import defaultdict
 from rfid_class import *
@@ -53,17 +53,22 @@ def storeAsClass(singleTagChunk):
 def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 	
 	##assumed: all rfids have locations populated
-	returnable =int ( nSniffers ** (.5) ) ##floor of sqrt (number of sniffer)
+	##floor of sqrt (number of sniffer) is what should be left
+	returnable = int ( len(rfidList) ** (.5) )
 
+	missingDist = missingID.getDistances()
 	sniffer_proximity_lists = defaultdict()
 
 	for i in range( 0, nSniffers ): ##for each sniffer
 		sniffer_proximity_lists[i] = []
 		for j, tag in enumerate( rfidList ): ## for each rfid 
-			sniffer_proximity_lists[i].append( tag.getDistances()[i] ) ## get respective tag for each 
+			# sniffer_proximity_lists[i].append( tag.getDistances()[i] ) ## get respective tag for each 
+			sniffer_proximity_lists[i].append( tag ) ## get respective tag for each 
 		## sort the list
-	for _sniffer_ in sniffer_proximity_lists:
-		sniffer_proximity_lists[_sniffer_] = sorted( sniffer_proximity_lists[_sniffer_], key = lambda x: x.getDistances()[i] ,reverse = True )
+	for i, _sniffer_ in enumerate(sniffer_proximity_lists):
+		# sniffer_proximity_lists[_sniffer_] = sorted( sniffer_proximity_lists[_sniffer_], key = lambda x: x.getDistances()[i] ,reverse = True )
+		sniffer_proximity_lists[_sniffer_].sort( key = lambda x: abs(x.getDistances()[i] - missingDist[i]) ,reverse = False )	
+		# del sniffer_proximity_lists[_sniffer_][:returnable] ##truncate past sqrt#sniffers
 		del sniffer_proximity_lists[_sniffer_][returnable:] ##truncate past sqrt#sniffers
 
 	return sniffer_proximity_lists
@@ -97,4 +102,4 @@ def findMidpoint(rfidDict):
 
 #TODO: CREATE A CLASS STRUCTURE {RFID_TAG: CONTAINS ID, DISTANCE1, DISTANCE2,
 #DISTANCE3, DISTANCE4    (WILL EVENTUALLY BE TIME1,TIME2,TIME3,TIME4)}
-storeAsClass(parse("myCSVfile.txt"))
+#storeAsClass(parse("myCSVfile.txt"))

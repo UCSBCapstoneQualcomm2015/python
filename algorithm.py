@@ -18,15 +18,24 @@ def solve(distances):
 	#
 
 	## nClosest call here
-	# below are intermediate steps: 
-	# for i in range( 0, nSniffers ):
-	# for j in range( i+1 , nSniffers):
-	# 	i_list = sniffer_proximity_lists[i]
-	# 	j_list = sniffer_proximity_lists[j]
-		
-	# 	compareLists(i, j, rd)
+	
+	# below are intermediate steps
+	globalDict = defaultdict() 
 
-	## compareLIsts call here
+	for i in range( 0, nSniffers ):
+		for j in range( i+1 , nSniffers):
+			i_list = sniffer_proximity_lists[i]
+			j_list = sniffer_proximity_lists[j]
+		
+			tempoDict = compareLists(i_list, j_list) ##output dictionary {RFID tag ID: count}
+
+			for key in tempoDict:
+				if key in globalDict:
+					globalDict[key] += tempoDict[key]
+				else:
+					globalDict[key] = tempoDict[key]
+
+
 
 
 #tell the snapdragons to send signals: need to pass in list of snapdragons we are using

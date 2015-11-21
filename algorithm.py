@@ -1,7 +1,12 @@
 #!/usr/bin/env python	
 import collections
 from collections import defaultdict
+
 from rfid_class import *
+
+import copy
+from copy import deepcopy
+
 import json
 import csv
 import sys
@@ -60,11 +65,16 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 	missingDist = missingID.getDistances()
 	sniffer_proximity_lists = defaultdict()
 
-	for i in range( 0, nSniffers ): ##for each sniffer
+	for i in range( 0, nSniffers ): ##each sniffer gets a list of rfid tags
 		sniffer_proximity_lists[i] = []
+		# sniffer_proximity_lists[i] = deepcopy(rfidList)
+		# print sniffer_proximity_lists[i]
 		for j, tag in enumerate( rfidList ): ## for each rfid 
 			# sniffer_proximity_lists[i].append( tag.getDistances()[i] ) ## get respective tag for each 
-			sniffer_proximity_lists[i].append( tag ) ## get respective tag for each 
+			if not tag.getDistances()[i] == -1: 
+				sniffer_proximity_lists[i].append( tag ) ## get respective tag for each 	
+
+
 		## sort the list
 	for i, _sniffer_ in enumerate(sniffer_proximity_lists):
 		# sniffer_proximity_lists[_sniffer_] = sorted( sniffer_proximity_lists[_sniffer_], key = lambda x: x.getDistances()[i] ,reverse = True )
@@ -78,7 +88,6 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 #compare each two lists and add common elements to dictionary
 def compareLists(list1, list2):
 ## NOTE: whatever calls this, must take the returned dictionary and append its changes to the main one.
-## [todo]: ask sohan what rfidDict is for, should it take the place of matches?
 
 	if (len(list1) != len(list2)):
 		raise ValueError('The two lists have different lengths.')

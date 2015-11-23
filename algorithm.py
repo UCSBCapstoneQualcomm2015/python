@@ -11,30 +11,6 @@ import json
 import csv
 import sys
 RFID_cats = ['EPC','Count','Last Seen Time','Last Seen Date','First Seen Time','First Seen Date', 'Antenna 1 distance', 'Antenna 1 - Last seen time', 'Antenna 1 - First seen time', 'Antenna 2 distance', 'Antenna 2 - Last seen time', 'Antenna 2 - First seen time', 'Antenna 3 distance', 'Antenna 3 - Last seen time', 'Antenna 3 - First seen time', 'Antenna 4 distance', 'Antenna 4 - Last seen time', 'Antenna 4 - First seen time', 'RSSI', 'PC', 'CRC']
-#start with dictionary of ids/distances
-def solve(distances): 
-	pass
-	#snapdragon goes
-	#
-
-	## nClosest call here
-	
-	# below are intermediate steps
-	globalDict = defaultdict() 
-
-	for i in range( 0, nSniffers ):
-		for j in range( i+1 , nSniffers):
-			i_list = sniffer_proximity_lists[i]
-			j_list = sniffer_proximity_lists[j]
-		
-			tempoDict = compareLists(i_list, j_list) ##output dictionary {RFID tag ID: count}
-
-			for key in tempoDict:
-				if key in globalDict:
-					globalDict[key] += tempoDict[key]
-				else:
-					globalDict[key] = tempoDict[key]
-
 
 
 
@@ -73,8 +49,10 @@ def storeAsClass(singleTagChunk):
 
 
 	#find  sqrt(number of ids) closest distances (ran on each snapdragon)
-def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
+def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default 
 	
+
+
 	##assumed: all rfids have locations populated
 	##floor of sqrt (number of sniffer) is what should be left
 	returnable = int ( len(rfidList) ** (.5) )
@@ -128,6 +106,46 @@ def compareLists(list1, list2):
 def findMidpoint(rfidDict):
 	pass
 
-#TODO: CREATE A CLASS STRUCTURE {RFID_TAG: CONTAINS ID, DISTANCE1, DISTANCE2,
-#DISTANCE3, DISTANCE4    (WILL EVENTUALLY BE TIME1,TIME2,TIME3,TIME4)}
-#storeAsClass(parse("myCSVfile.txt"))
+
+#start with dictionary of ids/distances
+def solve(distances): 
+
+	#BLACK BOX: SHOOT SNAPDRAGONS AND ASSUME ALL TAG INFORMATION IS APPENDED INTO A TEXT FILE
+
+	#PUT ALL THE ELEMENTS INTO CLASSES
+	tags = storeAsClass(parse("../myCSVfile.txt"))
+	nSniffers = 4
+	## nClosest call here
+	missing_tag = Rfid_tag("5")			###NOTE: WE NEED TO CREATE FUNCTION TO EXTRACT MISSING TAG'S INFORMATION AND DELETE IT FROM LIST###
+	missing_tag.initialize("1","4","5","2")
+	sniffer_proximity_lists = nClosest(4, tags, missing_tag)
+
+	# below are intermediate steps
+	globalDict = defaultdict() 
+
+	for i in range( 0, nSniffers ):
+		for j in range( i+1 , nSniffers):
+			i_list = sniffer_proximity_lists[i]
+			j_list = sniffer_proximity_lists[j]
+		
+			tempoDict = compareLists(i_list, j_list) ##output dictionary {RFID tag ID: count}
+
+			for key in tempoDict:
+				if key in globalDict:
+					globalDict[key] += tempoDict[key]
+				else:
+					globalDict[key] = tempoDict[key]
+	print globalDict
+
+	return globalDict
+
+
+
+
+
+
+
+
+
+
+

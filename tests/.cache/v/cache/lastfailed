@@ -1,3 +1,5 @@
 {
-  "test_algs.py::test_compare_2": true
+  "test_algs.py::test_compare_2": true, 
+  "test_algs.py::test_parseTocompare_1": true, 
+  "test_algs.py::test_storeAsClass_2": true
 }

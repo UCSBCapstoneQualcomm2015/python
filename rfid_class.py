@@ -32,10 +32,14 @@ class Rfid_tag:
 ##     so constructor can be empty   ##
 #######################################
 	def initialize(self, dA, dB, dC, dD ):
-		self._dist_A = dA
-		self._dist_B = dB
-		self._dist_C = dC
-		self._dist_D = dD
+		if (dA.strip() != "" and dA.strip() != "0"):
+			self._dist_A = int(dA)
+		if (dB.strip() != "" and dB.strip() != "0"):
+			self._dist_B = int(dB)
+		if (dC.strip() != "" and dC.strip() != "0"):
+			self._dist_C = int(dC)
+		if (dD.strip() != "" and dD.strip() != "0"):
+			self._dist_D = int(dD)
 		## if its being set, its the last time it was moved
 		self._lastMoved = datetime.datetime.now()
 

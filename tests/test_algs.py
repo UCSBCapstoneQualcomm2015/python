@@ -65,17 +65,17 @@ def test_compare_5():
 
 #simple passing test: 9 tags
 def test_nClosest_1():
-	tag_a.initialize(1,3,9,7)
-	tag_b.initialize(2,4,2,6)
-	tag_c.initialize(2,9,6,1)
-	tag_d.initialize(4,2,5,12)
-	tag_e.initialize(3,6,2,1)
-	tag_f.initialize(2,4,2,5)
-	tag_g.initialize(9,8,5,2)
-	tag_h.initialize(1,3,1,9)
-	tag_i.initialize(4,2,3,1)
+	tag_a.initialize("1","3","9","7")
+	tag_b.initialize("2","4","2","6")
+	tag_c.initialize("2","9","6","1")
+	tag_d.initialize("4","2","5","12")
+	tag_e.initialize("3","6","2","1")
+	tag_f.initialize("2","4","2","5")
+	tag_g.initialize("9","8","5","2")
+	tag_h.initialize("1","3","1","9")
+	tag_i.initialize("4","2","3","1")
 	missing = Rfid_tag(11)
-	missing.initialize(5,5,5,5)
+	missing.initialize("5","5","5","5")
 	myList = [tag_a, tag_b, tag_c, tag_d, tag_e, tag_f, tag_g, tag_h, tag_i]
 	solutionDict = nClosest(4, myList, missing)
 	assert len(solutionDict) == 4 
@@ -87,13 +87,14 @@ def test_nClosest_1():
 
 #simple passing test: 4 tags
 def test_nClosest_2():
-	tag_a.initialize(1,3,9,7)
-	tag_b.initialize(2,4,2,6)
-	tag_c.initialize(3,9,6,1)
-	tag_d.initialize(4,2,5,12)
-	missing = Rfid_tag(11)
-	missing.initialize(5,5,5,5)
-	myList = [tag_a, tag_b, tag_c, tag_d]
+	tag_a.initialize("1","3","9","7")
+	tag_b.initialize("2","4","2","6")
+	tag_c.initialize("3","9","6","1")
+	tag_d.initialize("4","2","5","12")
+	tag_e.initialize("21","42","34","32")
+	missing = Rfid_tag("11")
+	missing.initialize("5","5","5","5")
+	myList = [tag_a, tag_b, tag_c, tag_d, tag_e]
 	answer = nClosest(4, myList, missing)
 	assert answer[0] == [tag_d, tag_c]
 	# assert answer[1][0].getId() == 2 
@@ -104,12 +105,12 @@ def test_nClosest_2():
 
 #should not take in the -1
 def test_nClosest_3():
-	tag_a.initialize(1,3,9,-1)
-	tag_b.initialize(2,4,2,6)
-	tag_c.initialize(3,9,6,1)
-	tag_d.initialize(4,2,5,12)
+	tag_a.initialize("1","3","9","-1")
+	tag_b.initialize("2","4","2","6")
+	tag_c.initialize("3","9","6","1")
+	tag_d.initialize("4","2","5","12")
 	missing = Rfid_tag(11)
-	missing.initialize(5,5,5,1)
+	missing.initialize("5","5","5","1")
 	myList = [tag_a, tag_b, tag_c, tag_d]
 	answer = nClosest(4, myList, missing)
 	assert answer[3][1].getID() == 2
@@ -120,23 +121,36 @@ def test_nClosest_3():
 ################  PARSE ##################### NEEDS TO TURN TEXT FILE INTO LIST OF JSON: PLAY WITH SAMPLE DATA TO LOOK LIKE WHAT WE WANT
 
 def test_parse_1():
-	assert len(json.loads(parse("../myCSVfile.txt"))) == 2
+	assert len(json.loads(parse("../myCSVfile.txt"))) == 6
 
 
 
 ################   STORE AS CLASS ############### GIVEN A CHUNK OF JSON: TURN DATA INTO AN INSTANCE OF A CLASS AND ADD TO GLOBAL LIST
 
 def test_storeAsClass_1():
-	assert len(storeAsClass(parse("../myCSVfile.txt"))) == 2
+	assert len(storeAsClass(parse("../myCSVfile.txt"))) == 6
 
 def test_storeAsClass_2():
 	tags = storeAsClass(parse("../myCSVfile.txt"))
 	assert int(tags[1].getDist_B()) == 9
 
 
+############ INTEGRATION TESTS ############
 
+def test_parseTocompare_1():
+	solutionDict = solve(1)
+	assert len(solutionDict) == 3
+	
 
+# "1","4","5","2"
 
+# 2,1
+# 3,5
+# 4,3
+# 2, 6
+
+# 2: 1
+# 3: 1
 
 
 

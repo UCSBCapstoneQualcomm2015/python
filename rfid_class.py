@@ -1,4 +1,3 @@
-
 ##NOTE: python doesnt support private members, 
 #       so following convention, any var/func name with leading undersore
 #       is to be treated as private.
@@ -12,7 +11,7 @@
 #######################################
 import datetime
 
-class rfid_tags:
+class Rfid_tag:
 	
 #######################################
 ##            constructor            ##
@@ -32,7 +31,7 @@ class rfid_tags:
 ##            initialize             ##
 ##     so constructor can be empty   ##
 #######################################
-	def initialize(self, dA, dB, dC, dDa ):
+	def initialize(self, dA, dB, dC, dD ):
 		self._dist_A = dA
 		self._dist_B = dB
 		self._dist_C = dC
@@ -44,6 +43,10 @@ class rfid_tags:
 #######################################
 ##   GETTERS FOR SNIFFER DISTANCES    #
 #######################################
+	
+	def getDistances(self):
+		distances = [ self._dist_A, self._dist_B, self._dist_C, self._dist_D ]
+		return distances
 
 	def getDist_A(self):
 		## [TODO]: write the location algorithm here

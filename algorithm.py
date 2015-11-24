@@ -54,7 +54,7 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 
 
 	##assumed: all rfids have locations populated
-	##floor of sqrt (number of sniffer) is what should be left
+	##floor of sqrt (number of tags) is what should be left
 	returnable = int ( len(rfidList) ** (.5) )
 
 	missingDist = missingID.getDistances()
@@ -122,12 +122,15 @@ def findMidpoint(rfidDict):
 
 
 #start with dictionary of ids/distances
-def solve(distances): 
+def solve(): 
 
 	#BLACK BOX: SHOOT SNAPDRAGONS AND ASSUME ALL TAG INFORMATION IS APPENDED INTO A TEXT FILE
 
 	#PUT ALL THE ELEMENTS INTO CLASSES
-	tags = storeAsClass(parse("../myCSVfile.txt"))
+	tags = storeAsClass(parse("myCSVfile.txt"))
+
+
+
 	nSniffers = 4
 	## nClosest call here
 	missing_tag = Rfid_tag("5")			###NOTE: WE NEED TO CREATE FUNCTION TO EXTRACT MISSING TAG'S INFORMATION AND DELETE IT FROM LIST###
@@ -153,9 +156,7 @@ def solve(distances):
 	foundEm = findMidpoint(globalDict)
 
 	return foundEm
-
-
-
+ 
 
 
 

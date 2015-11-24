@@ -105,7 +105,6 @@ def compareLists(list1, list2):
 #return midpoint coordinates using proper weights
 def findMidpoint(rfidDict):
 
-<<<<<<< HEAD
 	x_avg, y_avg, total_weight = 0, 0, 0
 	
 	for key in rfidDict: ##key is rfid object, item is weight
@@ -121,9 +120,6 @@ def findMidpoint(rfidDict):
 
 	return (x_avg,y_avg)
 
-
-=======
->>>>>>> 2290c903d8ff2dd4e1d7f3bd27699ca30a3ff278
 
 #start with dictionary of ids/distances
 def solve(distances): 
@@ -153,12 +149,10 @@ def solve(distances):
 				else:
 					globalDict[key] = tempoDict[key]
 
-<<<<<<< HEAD
+
 	foundEm = findMidpoint(globalDict)
 
 	return foundEm
-=======
-	return globalDict
 
 
 
@@ -170,4 +164,4 @@ def solve(distances):
 
 
 
->>>>>>> 2290c903d8ff2dd4e1d7f3bd27699ca30a3ff278
+

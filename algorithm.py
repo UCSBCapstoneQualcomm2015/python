@@ -63,8 +63,16 @@ def parse(filename):
 #helper called from parse
 def storeAsClass(singleTagChunk):
 	data = json.loads(singleTagChunk)
-	print data[0]['EPC']
-#find  sqrt(number of ids) closest distances (ran on each snapdragon)
+	tags = []
+	i = 0
+	for tag in data:
+		tags.append(Rfid_tag(tag["EPC"]))
+		tags[i].initialize(tag["Antenna 1 distance"], tag["Antenna 2 distance"], tag["Antenna 3 distance"], tag["Antenna 4 distance"])
+		i = i + 1
+	return tags
+
+
+	#find  sqrt(number of ids) closest distances (ran on each snapdragon)
 def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 	
 	##assumed: all rfids have locations populated

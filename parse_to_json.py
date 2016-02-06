@@ -118,11 +118,11 @@ def compareLists(list1, list2, matches):
 #inputs: json, itemId, array of refTagIds
 if __name__=="__main__":
 	itemId = sys.argv[2]
-	# snapdragons = delete_blanks(sys.argv[1], itemId)
-	# refTags = json.loads(sys.argv[3])
-	snapdragons = delete_blanks(sample3,"4")
-	# tags = initialize_tag_objects(refTags, len(snapdragons['snaps']))
-	tags = initialize_tag_objects(["1","2","3","5"], len(snapdragons['snaps']))
+	snapdragons = delete_blanks(sys.argv[1], itemId)
+	refTags = json.loads(sys.argv[3])
+	# snapdragons = delete_blanks(sample3,"4")
+	tags = initialize_tag_objects(refTags, len(snapdragons['snaps']))
+	# tags = initialize_tag_objects(["1","2","3","5"], len(snapdragons['snaps']))
 
 	item = initialize_item("4", len(snapdragons['snaps']))
 

@@ -91,8 +91,8 @@ class Rfid_tag:
 # #######################################
 # ##             ID getter             ##
 # #######################################
-# 	def getID(self):
-# 		## [TODO]: write the location algorithm here
-# 		return self._ID
+	def getID(self):
+		## [TODO]: write the location algorithm here
+		return self.id
 
 ##end_class

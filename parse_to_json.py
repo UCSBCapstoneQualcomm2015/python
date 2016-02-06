@@ -1,6 +1,3 @@
-#EPC, Count, Last seen time, Last seen date, First seen time, First seen date, Antenna 1 count, Antenna 1 - Last seen time, Antenna 1 - First seen time, Antenna 2 count, Antenna 2 - Last seen time, Antenna 2 - First seen time, Antenna 3 count, Antenna 3 - Last seen time, Antenna 3 - First seen time, Antenna 4 count, Antenna 4 - Last seen time, Antenna 4 - First seen time, RSSI, PC, CRC
-
-#305400B8AC023E0000000022, 25, 14:02:50:8681, Apr-22-2013, 14:02:44:5987, Apr-22-2013, 25, 14:02:50:8681, 14:02:44:5987, 0, , , 0, , , 0, , , -69, 3000, 2A0F
 import json
 import csv
 import sys
@@ -47,8 +44,8 @@ def populate_tag(tag, jsonString):
 
 	for i in range(len(tag.snaps)):
 		currentSnap = jsonString['snaps'][i]
-		if (currentSnap['ids'].count(tag.id) == 1): 		#SNAPDRAGON LOCATED THIS TAG
-			tag.snaps[i] = currentSnap['sig_strength'][currentSnap['ids'].index(tag.id)]
+		if (currentSnap['ids'].count(tag.getID()) == 1): 		#SNAPDRAGON LOCATED THIS TAG
+			tag.snaps[i] = currentSnap['sig_strength'][currentSnap['ids'].index(tag.getID())]
 	return tag
 
 
@@ -93,15 +90,15 @@ def compareLists(list1, list2, matches):
 
 	settit = set() ## for efficient use of "in"
 	for rfid in list1:
-		settit.add( rfid.id)
+		settit.add( rfid.getID())
 
 	for rfid in list2: 
-		if rfid.id in settit: ## if there is a match
+		if rfid.getID() in settit: ## if there is a match
 			##add it to the dictionary
-			if rfid.id in matches:
-				matches[rfid.id] += 1
+			if rfid.getID() in matches:
+				matches[rfid.getID()] += 1
 			else:
-				matches[rfid.id] = 1 
+				matches[rfid.getID()] = 1 
 
 	return matches
 
@@ -118,42 +115,30 @@ def compareLists(list1, list2, matches):
 #rfidCLass-> id: ?, sig_strengths= [-1] * snaps.length
 
 
-
+#inputs: json, itemId, array of refTagIds
 if __name__=="__main__":
-	str = delete_blanks(sample3,"4")
-	tags = initialize_tag_objects(["1","2","3","5"], len(str['snaps']))
-	for tag in tags:
-		print '\n'
-		print tag.snaps
-	item = initialize_item("4", len(str['snaps']))
-	print "intial item: "
-	print item.snaps
+	itemId = sys.argv[2]
+	# snapdragons = delete_blanks(sys.argv[1], itemId)
+	# refTags = json.loads(sys.argv[3])
+	snapdragons = delete_blanks(sample3,"4")
+	# tags = initialize_tag_objects(refTags, len(snapdragons['snaps']))
+	tags = initialize_tag_objects(["1","2","3","5"], len(snapdragons['snaps']))
 
-	item = populate_tag(item, str)
-	print "good item: "
-	print item.snaps
+	item = initialize_item("4", len(snapdragons['snaps']))
 
-	for tag in tags:
-		tag = populate_tag(tag, str)
+
+	item = populate_tag(item, snapdragons)
+
 
 	for tag in tags:
-		print tag.id
-		print tag.snaps
+		tag = populate_tag(tag, snapdragons)
 
-	answer = nClosest(len(str['snaps']), tags, item)
-	print "answer"
-	for snap in answer:
-		for tag in answer[snap]:
-			print tag.id
-		print "\n"
+
+	closestResults = nClosest(len(snapdragons['snaps']), tags, item)
+
 	matches = defaultdict()
-	matches['3'] = 1
-	matches = compareLists(answer[0],answer[1], matches)
-	print "matches length"
-	print matches['3']
+	for i in range(0, len(closestResults) - 1):
+		matches = compareLists(closestResults[i],closestResults[i+1], matches)
+	
+	print json.dumps(dict(matches))
 
-
-# RFID_cats = ['EPC','Count','Last Seen Time','Last Seen Date','First Seen Time','First Seen Date', 'Antenna 1 count', 'Antenna 1 - Last seen time', 'Antenna 1 - First seen time', 'Antenna 2 count', 'Antenna 2 - Last seen time', 'Antenna 2 - First seen time', 'Antenna 3 count', 'Antenna 3 - Last seen time', 'Antenna 3 - First seen time', 'Antenna 4 count', 'Antenna 4 - Last seen time', 'Antenna 4 - First seen time', 'RSSI', 'PC', 'CRC']
-# data_string = "EPC, Count, Last seen time, Last seen date, First seen time, First seen date, Antenna 1 count, Antenna 1 - Last seen time, Antenna 1 - First seen time, Antenna 2 count, Antenna 2 - Last seen time, Antenna 2 - First seen time, Antenna 3 count, Antenna 3 - Last seen time, Antenna 3 - First seen time, Antenna 4 count, Antenna 4 - Last seen time, Antenna 4 - First seen time, RSSI, PC, CRC"
-# data_list = data_string.split(',')
-# data = dict(zip(json1, mylist))

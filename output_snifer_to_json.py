@@ -50,4 +50,4 @@ while not len(the_bits) == 0:
 
 
 
-return json.dumps({"name":snapdragon_name,"ids":the_i_ds, "sig_strength":the_signal_strengths})
+return json.dumps({"ids":the_i_ds, "sig_strength":the_signal_strengths})

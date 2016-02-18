@@ -147,13 +147,13 @@ def oneSnapDragon(rfidList, missingID):
 if __name__=="__main__":
 	itemId = sys.argv[2]
 	snapdragons = delete_blanks(sys.argv[1], itemId)
-	refTags = json.loads(sys.argv[3])
+	refTags = yaml.load(sys.argv[3])['tags']
 	# snapdragons = delete_blanks(sample3 ,"4")
 	# print(snapdragons['snaps'])
 	# print len(snapdragons['snaps'])
 	# del snapdragons['snaps'][0]
 	# print len(snapdragons['snaps'])
-	tags = initialize_tag_objects(refTags, len(snapdragons['snaps']))
+	# tags = initialize_tag_objects(yaml.load('{"tags": [1,2,3,5]}')["tags"], len(snapdragons['snaps']))
 	# tags = initialize_tag_objects(["1","2","3","5"], len(snapdragons['snaps']))
 
 	item = initialize_item(4, len(snapdragons['snaps']))

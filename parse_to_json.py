@@ -54,6 +54,9 @@ def populate_tag(tag, jsonString):
 		currentSnap = jsonString['snaps'][i]
 		if (currentSnap['ids'].count(tag.getID()) == 1): 		#SNAPDRAGON LOCATED THIS TAG
 			tag.snaps[i] = currentSnap['sig_strength'][currentSnap['ids'].index(tag.getID())]
+	print tag.getID()
+	print tag.getDistances()
+	print " "
 	return tag
 
 
@@ -76,7 +79,7 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 		for j, tag in enumerate( rfidList ): ## for each rfid 
 			# sniffer_proximity_lists[i].append( tag.getDistances()[i] ) ## get respective tag for each 
 			if not tag.getDistances()[i] == -1: 
-				sniffer_proximity_lists[i].append( tag ) ## get respective tag for each 	
+				sniffer_proximity_lists[i].append( tag ) ## get respective tag for each 
 
 
 		## sort the list
@@ -91,7 +94,11 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 
 def compareLists(list1, list2, matches):
 ## NOTE: whatever calls this, must take the returned dictionary and append its changes to the main one.
-
+	# for i in range(0, len(list1)):
+	# 	print list1[i].getID()
+	# print " "
+	# for i in range(0, len(list2)):
+	# 	print list2[i].getID()
 	if (len(list1) != len(list2)):
 		raise ValueError('The two lists have different lengths.')
 
@@ -148,19 +155,18 @@ if __name__=="__main__":
 	itemId = sys.argv[2]
 	snapdragons = delete_blanks(sys.argv[1], itemId)
 	refTags = yaml.load(sys.argv[3])['tags']
-	# snapdragons = delete_blanks(sample3 ,"4")
+	# snapdragons = delete_blanks('{"snaps": [{"sig_strength": [25, 26, 21, 24, 23, 23, 31], "ids": ["230000000000", "120000000000", "220000000000", "430000000000", "320000000000", "510000000000", "110000000000"]},{"sig_strength": [26, 29, 24, 27, 28, 25, 26], "ids": ["230000000000", "310000000000", "220000000000", "430000000000", "320000000000", "410000000000", "520000000000"]}]}', "230000000000")
 	# print(snapdragons['snaps'])
 	# print len(snapdragons['snaps'])
 	# del snapdragons['snaps'][0]
 	# print len(snapdragons['snaps'])
-	# tags = initialize_tag_objects(yaml.load('{"tags": [1,2,3,5]}')["tags"], len(snapdragons['snaps']))
+	tags = initialize_tag_objects(refTags, len(snapdragons['snaps']))
 	# tags = initialize_tag_objects(["1","2","3","5"], len(snapdragons['snaps']))
 
-	item = initialize_item(4, len(snapdragons['snaps']))
+	item = initialize_item(itemId, len(snapdragons['snaps']))
 
 
 	item = populate_tag(item, snapdragons)
-
 
 	for tag in tags:
 		tag = populate_tag(tag, snapdragons)
@@ -169,6 +175,9 @@ if __name__=="__main__":
 	if (len(snapdragons['snaps']) > 1):
 		closestResults = nClosest(len(snapdragons['snaps']), tags, item)
 		matches = defaultdict()
+		for i in range(0, len(closestResults)):
+			if len(closestResults[i]) < int ( len(tags) ** (.5)):
+				del closestResults[i]
 		for i in range(0, len(closestResults) - 1):
 			matches = compareLists(closestResults[i],closestResults[i + 1], matches)
 

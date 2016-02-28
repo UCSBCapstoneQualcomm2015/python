@@ -34,18 +34,21 @@ def delete_blanks(input, itemId):
 	for snap in str['snaps']:
 		if (itemId not in snap['ids']):
 			del str['snaps'][index]
-		index = index + 1
+		else:
+			index = index + 1
 	return str
 
 #tag initialized to correct number of sniffers (sig strength of -1) and store in array
 def initialize_tag_objects(tagArray, num_snaps):
 	tags = []
 	for tagId in tagArray:
+		tagId = str(tagId)
 		tags.append(Rfid_tag(tagId, num_snaps))
 	return tags
 
 #returns item object
 def initialize_item(itemId, num_snaps):
+	itemId = str(itemId)
 	return Rfid_tag(itemId, num_snaps)
 
 #CAN BE USED FOR REFERENCE TAG OR ITEM: param: ref/item object, json; return = correctly filled in object 
@@ -59,6 +62,7 @@ def populate_tag(tag, jsonString):
 	# print tag.getID()
 	# print tag.getDistances()
 	# print " "
+
 	return tag
 
 
@@ -158,31 +162,32 @@ if __name__=="__main__":
 	itemId = sys.argv[2]
 	snapdragons = delete_blanks(sys.argv[1], itemId)
 	refTags = yaml.load(sys.argv[3])['tags']	
-
 	# snapdragons = delete_blanks(vic_sample1, vic_id)
 	# del snapdragons['snaps'][0]
 	# print len(snapdragons['snaps'])
 	tags = initialize_tag_objects(refTags, len(snapdragons['snaps']))
 	# tags = initialize_tag_objects(["1","2","3","5"], len(snapdragons['snaps']))
 
-	item = initialize_item('230000000000', len(snapdragons['snaps']))
+	item = initialize_item(itemId, len(snapdragons['snaps']))
 
 
 	item = populate_tag(item, snapdragons)
 
-
 	for tag in tags:
+		# print tag.getID()
 		tag = populate_tag(tag, snapdragons)
 
 
 	if (len(snapdragons['snaps']) > 1):
 		closestResults = nClosest(len(snapdragons['snaps']), tags, item)
 		matches = defaultdict()
-		for i in range(0, len(closestResults)):
-			if len(closestResults[i]) < int ( len(tags) ** (.5)):
-				del closestResults[i]
+		index = 0
+		for k in closestResults.keys():
+			if len(closestResults[k]) < int ( len(tags) ** (.5)):
+				del closestResults[k]
 		for i in range(0, len(closestResults) - 1):
 			for j in range(1, len(closestResults)):
+
 				matches = compareLists(closestResults[i],closestResults[j], matches)
 
 	elif (len(snapdragons['snaps']) == 1):

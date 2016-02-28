@@ -101,11 +101,6 @@ def nClosest(nSniffers, rfidList, missingID): ##make nSnif = 4 as default
 
 def compareLists(list1, list2, matches):
 ## NOTE: whatever calls this, must take the returned dictionary and append its changes to the main one.
-	for i in range(0, len(list1)):
-		print list1[i].getID()
-	print " "
-	for i in range(0, len(list2)):
-		print list2[i].getID()
 	if (len(list1) != len(list2)):
 		raise ValueError('The two lists have different lengths.')
 

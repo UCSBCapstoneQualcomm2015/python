@@ -30,7 +30,7 @@ def delete_blanks(input, itemId):
 	str = yaml.load(input)
 	tags = []
 	index = 0
-	#valid sniffers: go through list of sniffers and if id we are looking for is not contained, delete that sniffer
+	# valid sniffers: go through list of sniffers and if id we are looking for is not contained, delete that sniffer
 	for snap in str['snaps']:
 		if (itemId not in snap['ids']):
 			del str['snaps'][index]
@@ -180,9 +180,12 @@ if __name__=="__main__":
 		for k in closestResults.keys():
 			if len(closestResults[k]) < int ( len(tags) ** (.5)):
 				del closestResults[k]
+		for i in xrange(len(closestResults)):
+			for a in xrange(len(closestResults[i])):
+				print closestResults[i][a].getID()
+			print ""		
 		for i in range(0, len(closestResults) - 1):
 			for j in range(1, len(closestResults)):
-
 				matches = compareLists(closestResults[i],closestResults[j], matches)
 
 	elif (len(snapdragons['snaps']) == 1):

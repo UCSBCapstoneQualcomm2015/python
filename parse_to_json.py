@@ -57,11 +57,12 @@ def initialize_item(itemId, num_snaps):
 #CAN BE USED FOR REFERENCE TAG OR ITEM: param: ref/item object, json; return = correctly filled in object 
 def populate_tag(tag, jsonString):
 	#if a specific value doesn't exist, keep the -1
-
+	#[-1, -1, -1, -1]
 	for i in range(len(tag.snaps)):
 		currentSnap = jsonString['snaps'][i]
 		if (currentSnap['ids'].count(tag.getID()) == 1): 		#SNAPDRAGON LOCATED THIS TAG
 			tag.snaps[i] = currentSnap['sig_strength'][currentSnap['ids'].index(tag.getID())]
+		
 	# print tag.getID()
 	# print tag.getDistances()
 	# print " "
@@ -188,7 +189,6 @@ if __name__=="__main__":
 		# print tag.getID()
 		tag = populate_tag(tag, snapdragons)
 
-
 	if (len(snapdragons['snaps']) > 1):
 		closestResults = nClosest(len(snapdragons['snaps']), tags, item)
 		matches = defaultdict()
@@ -196,10 +196,10 @@ if __name__=="__main__":
 		for k in closestResults.keys():
 			if len(closestResults[k]) < int ( len(tags) ** (.5)):
 				del closestResults[k]
-		# for i in xrange(len(closestResults)):
-		# 	for a in xrange(len(closestResults[i])):
-		# 		print closestResults[i][a].getID()
-		# 	print ""		
+		for i in xrange(len(closestResults)):
+			for a in xrange(len(closestResults[i])):
+				print closestResults[i][a].getID()
+			print ""		
 		for i in range(0, len(closestResults) - 1):
 			for j in range(1, len(closestResults)):
 				matches = compareLists(closestResults[i],closestResults[j], matches)
@@ -209,6 +209,8 @@ if __name__=="__main__":
 	
 	else:	#0 snapdragons -> should be handled from node side
 		print ":("
+	# print matches
+	print matches
 	print json.dumps(getLocation(matches, tags))
 	
 	# print json.dumps(dict(matches))

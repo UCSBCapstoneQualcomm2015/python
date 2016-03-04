@@ -18,7 +18,11 @@ ss_to_match = 10
 proximity_distance = 12
 s = [1,2,3,4,5,6,7]
 n = 2
-print nsmallest(n, d.keys(), key=lambda x: abs(d[x]- proximity_distance)) 
+ 
+for i in s:
+	if s[i] != 8
+	del s[i]
+# print nsmallest(n, d.keys(), key=lambda x: abs(d[x]- proximity_distance)) 
 # print  min(d.keys(), key=lambda if x!= '2' x:abs(d[x]-float(ss_to_match)))
 
 # hit_one = min(d.keys(), key=lambda x:abs(d[x]-float(ss_to_match)))

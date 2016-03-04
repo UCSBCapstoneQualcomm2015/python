@@ -189,12 +189,16 @@ def getLocation(matches, tags):
 	x = 0
 	y = 0
 	counter = 0
+	print matches
 	for key, value in matches.iteritems():    
 		for tag in tags:
 			if tag.getID() == key:
 				x += (tag.getXCoord() * value)
 				y += (tag.getYCoord() * value)
 				counter += value
+	print x
+	print y
+	print counter
 	xCoord = x / float(counter)
 	yCoord = y / float(counter)
 	resultDict = {'xCoord': xCoord, 'yCoord': yCoord}
@@ -256,7 +260,6 @@ if __name__=="__main__":
 	for i in xrange(len(snapdragons['snaps'])):
 		snap_distances.append(get_snap_distances(snapdragons['snaps'][i], refTags))
 
-	print len(snapdragons['snaps'])
 
 	for tag in tags:
 		# print tag.getID()
@@ -277,7 +280,10 @@ if __name__=="__main__":
 			for j in range(1, len(closestResults)):
 				matches = compareLists(closestResults[i],closestResults[j], matches)
 
-		print json.dumps(getLocation(matches, tags))
+		if (len(matches) == 0):
+			print json.dumps({'xCoord': "-2", 'yCoord': "-2"})
+		else:
+			print json.dumps(getLocation(matches, tags))
 
 	elif (len(snapdragons['snaps']) == 1):
 		matches = oneSnapDragon(tags, item)
